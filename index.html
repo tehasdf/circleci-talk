@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>reveal.js – The HTML Presentation Framework</title>
+
+        <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+        <meta name="author" content="Hakim El Hattab">
+
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/black.css" id="theme">
+
+        <!-- Theme used for syntax highlighting of code -->
+        <link rel="stylesheet" href="css/zenburn.css">
+
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+                <section>
+                    <h1>(Circle) CI</h1>
+                    <p>Łukasz Maksymczuk</p>
+                    <p>Codilime</p>
+                    <p class="fragment">Cloudify team</p>
+                </section>
+
+                <section>
+                    <h2>Continuous Integration</h2>
+                    <p class="fragment">A way to deliver high quality products ...on time</p>
+                    <p class="fragment">Idea formalized ~2000, "extreme programming"</p>
+                    <p class="fragment">Everybody's doing it!</p>
+                    <aside class="notes">
+                        Co to jest CI? W odróżnieniu od pracy nad ficzerem w odosobnieniu przez długi czas,
+                        bez ciągłej weryfikacji testami, co powodowało paniczne fixowanie przed samym releasem.
+                        Kent Beck, Martin Fowler.
+                        Dzisiaj - przecież mamy PRy itp, ale nadal te problemy występują.
+                    </aside>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>CI is...</h2>
+                        <p>...a workflow</p>
+                    </section>
+                    <section>
+                        <p>Commit early, commit often</p>
+                        <p class="fragment">Everyone commits to the mainline every day</p>
+                        <p class="fragment">Build on every commit</p>
+                        <p class="fragment">Fix broken builds fast</p>
+                        <aside class="notes">
+                            Najważniejszą sprawą jest podejście zespołu - narzędzia to jedno, ale trzeba ich używać.
+                            Programiści muszą cały czas testować. Problemem nie są zwykłe merge conflicty na poziomie kodu/tekstowym,
+                            ale "konflikty" logiczne, gdy jeden ficzer nie zgrywa się z drugim. To się wpisuje w inne
+                            pomysły extreme programming, "agile", iteracyjnego developmentu itp.
+                            Build on every commit, fix broken builds fast - wynajdywanie błędów jak najszybciej.
+                            <br />
+                            I ŁATWO ROLLBACKOWAĆ
+                        </aside>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>CI is...</h2>
+                        <p>...a workflow</p>
+                        <p>...software</p>
+                    </section>
+
+                    <section>
+                        <p>Automated checks</p>
+                        <p class="fragment">Pull Request status</p>
+                        <p class="fragment">Integration servers</p>
+                        <img src="img/pr.png" class="fragment" />
+                        <aside class="notes">
+                            Mamy dużo softu do pomocy.
+                            Szeroko używane narzędzia, np. github, wymuszają niektóre elementy podejścia "CI" - jeśli
+                            tylko się podłączy hooki.
+                        </aside>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>CI is...</h2>
+                        <p>...a workflow</p>
+                        <p>...software</p>
+                        <p>...organization</p>
+                    </section>
+
+                    <section>
+                        <p>Combination of the workflow, the team's attitude, and the right software</p>
+                        <aside class="notes">
+                            Nie wierzyć "jutrzejszemu sobie" - zrobić narzędzia, które będą wymuszać jakość.
+                        </aside>
+                    </section>
+                </section>
+
+                <section>
+                    <h2>What do I need?</h2>
+                    <p class="fragment">Tests!</p>
+                    <p class="fragment">More tests!</p>
+                    <p class="fragment">Stable tests!</p>
+                    <p class="fragment">Fast tests!</p>
+                    <p class="fragment">Automation</p>
+                    <p class="fragment">Single source repository?</p>
+                    <aside class="notes">
+                        Wymagane są testy.
+                        I to z dużym coveragem. Przecież cały pomysł jest po to, żeby wcześnie wykrywać błędy.
+                        Testy muszą być stabilne, żeby ludzie nie nauczyli się ich olewać.
+                        Muszą być szybkie, żeby ludzie się nie rozleniwili czekając na nie.
+                        Muszą być automatyczne, bo ludziom nie bęzie się chciało ich odpalać, albo będą to robić
+                        błędnie.
+                        Single source - wszystko co potrzebne, musi być na miejscu. W odróżnieniu od np. maszyn jenkinsa
+                        które są zbudowane przez admina i nie da się ich łatwo odtworzyć.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>What if I don't have it?</h2>
+                        <p class="fragment">Measure coverage deltas</p>
+                        <p class="fragment">Fix, mock, retry</p>
+                        <p class="fragment">Two-stage pipeline</p>
+                        <p class="fragment">Automate :)</p>
+                        <aside class="notes">
+                            Na za mało testów - dodać codecov, i wymagać zwiększonego coverage.
+                            Niestabilne testy - mockować losowe rzeczy. No i naprawić te testy. Retry w zupełnej ostateczności,
+                            ale lepiej niż nic.
+                            Jeśli są za wolne - two-stage.
+                            Brak automatyzacji - automatyzować! O tym jest ten talk.
+                        </aside>
+                </section>
+
+                <section>
+                    <h2>Automation tools</h2>
+                </section>
+
+                <section>
+                    <h2>Travis</h2>
+                    <p class="fragment">Widely used</p>
+                    <p class="fragment">Open source</p>
+                    <p class="fragment">Free for open source projects</p>
+                    <p class="fragment">Easy configuration</p>
+                    <aside class="notes">
+                        Bardzo szeroko używany. Konfiguracja w yamlu. Generalnie spoko.
+                        Niestety wsparcie dla dockera w zasadzie nie jest 1st-class. Trzeba pisać `docker run` i trochę
+                        to trwa.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Jenkins</h2>
+                    <p class="fragment">Lots of setup</p>
+                    <p class="fragment">...but still widely used</p>
+                    <aside class="notes">
+                        W zasadzie wszystko trzeba zrobić samemu. Ale jest wielu speców od jenkinsa i łatwo znaleźć
+                        kogoś kto się na tym chociaż trochę zna.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Circle</h2>
+                    <p class="fragment">Fast builds</p>
+                    <p class="fragment">Good UX</p>
+                    <p class="fragment">Somewhat pricey</p>
+                    <p class="fragment">On-prem/SaaS</p>
+                    <p class="fragment">Recent upgrade to 2.0 (and 2.1)</p>
+                    <aside class="notes">
+                        Można już zapomnieć o 1.0.
+                        Nie ma inferencji.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Appveyor</h2>
+                    <p class="fragment">Windows!</p>
+                </section>
+
+                <section>
+                    <h2>Case: Cloudify</h2>
+                    <p class="fragment">Travis...</p>
+                    <p class="fragment">..switched to Circle</p>
+                    <p class="fragment">Jenkins</p>
+                </section>
+
+                <section>
+                    <h2>Circle config.yml</h2>
+                    <pre><code class="hljs" data-trim>
+                        version: 2.0
+                        jobs:
+                         build:
+                           docker:
+                             - image: alpine:3.7
+                           steps:
+                             - run:
+                                 name: The First Step
+                                 command: |
+                                   echo 'Hello World!'
+                                   echo 'This is the delivery pipeline'
+                    </code></pre>
+                </section>
+
+                <section>
+                    <pre><code class="hljs" data-trim>
+                        workflows:
+                            version: 2
+                            Example_Workflow:
+                               jobs:
+                                 - Hello-World
+                                 - I-Have-Code:
+                                     requires:
+                                       - Hello-World
+                                 - Run-With-Node:
+                                     requires:
+                                       - Hello-World
+                                 - Hold-For-Approval:
+                                     type: approval
+                                     requires:
+                                       - Run-With-Node
+                                       - I-Have-Code
+                   </code></pre>
+                   <aside class="notes">
+                        approval - czeka aż operator kliknie w ui
+                   </aside>
+                </section>
+
+                <section>
+                    <h2>Useful steps</h2>
+                    <p class="fragment">attach_workspace</p>
+                    <p class="fragment">persist_to_workspace</p>
+                    <p class="fragment">add_ssh_keys</p>
+                    <p class="fragment">store_artifacts</p>
+                </section>
+
+                <section>
+                    <h2>Parallelism</h2>
+                    <p class="fragment">run vs deploy</p>
+                    <p class="fragment">Test splitting</p>
+                    <aside class="notes">
+                        https://circleci.com/docs/2.0/parallelism-faster-jobs/#using-the-circleci-cli-to-split-tests
+                    </aside>
+                </section>
+                <section>
+                    <h2>Cache</h2>
+                    <pre><code class="hljs" data-trim>
+                        steps:
+                          - restore_cache:
+                              keys:
+                                # when lock file changes, use increasingly general patterns to restore cache
+                                - pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+                                - pip-packages-v1-{{ .Branch }}-
+                                - pip-packages-v1-
+                          - save_cache:
+                              paths:
+                                - ~/.local/share/virtualenvs/venv  # this path depends on where pipenv creates a virtualenv
+                              key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+                    </code></pre>
+                    <aside class="notes">
+                        Brak automatycznego cache, jak w 1.0, które się psuło.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Orbs</h2>
+                    <p>Reusable parts of config</p>
+                    <pre><code class="hljs" data-trim>
+                        orbs:
+                            slack: circleci/slack@volatile
+                        jobs:
+                          myjob:
+                            steps:
+                              - run: echo "hello"
+                              - slack/notify:
+                                  message: hello
+                    </code></pre>
+                    <img src="img/orb.png" class="fragment" />
+                    <aside class="notes">
+                        W 2.1.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Secrets</h2>
+                    <img src="img/secret.png" />
+                </section>
+
+                <section>
+                    <h2>Circle CLI</h2>
+                    <p class="fragment">local execution</p>
+                    <p class="fragment">circleci local execute --job flake8</p>
+                    <img src="img/cli.png" class="fragment" />
+                </section>
+
+                <section>
+                    <h2>SSH</h2>
+                    <p class="fragment">Enable using add_ssh_keys in a workflow</p>
+                    <p class="fragment">Interactive usage</p>
+                    <img src="img/ssh.png" class="fragment" />
+                </section>
+
+                <section>
+                    <h2>API</h2>
+                    <p>Example - fetching artifacts</p>
+                    <pre><code class="hljs" data-trim>
+                        API_PREFIX = (
+                        'https://circleci.com/api/v1.1/project/github/'
+                        '{organization}/{{project}}/'.format(
+                            organization=os.getenv(
+                                'CIRCLE_PROJECT_USERNAME', 'cloudify-cosmo')))
+
+                        URL_TEMPLATE = API_PREFIX + 'tree/{branch}'
+                        ARTIFACTS_TEMPLATE = API_PREFIX + '{build[build_num]}/artifacts'
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Scheduled triggers</h2>
+                    <pre><code class="hljs" data-trim>
+                          nightly:
+                            triggers:
+                              - schedule:
+                                  cron: 0 7 * * *
+                                  filters:
+                                    branches:
+                                      only: master
+                            jobs: *workflow_jobs
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Thank you</h2>
+                    <p>https://github.com/tehasdf/circleci-talk</p>
+                    <p>https://circleci.com/docs/</p>
+                    <p>https://martinfowler.com/articles/continuousIntegration.html</p>
+                </section>
+
+            </div>
+
+        </div>
+
+        <script src="js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+
+            // More info https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                transition: 'slide', // none/fade/slide/convex/concave/zoom
+                dependencies: [
+                    { src: 'js/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'js/notes.js', async: true }
+                ]
+            });
+
+        </script>
+
+    </body>
+</html>
